@@ -63,14 +63,8 @@ def premier_league_matches(request):
 
 def premier_league_odds(request):
     odd_data = odds()
-    profile,created = Profile.objects.get_or_create(user=request.user)
-    bet_slip_qs, created = BetSlip.objects.get_or_create(
-        profile=profile,
-        accepted=False
-    )
     context = {
         'odds':odd_data,
-        'bet_slip':bet_slip_qs
     }
     return render(request,"premier_league/odds.html",context)
 
