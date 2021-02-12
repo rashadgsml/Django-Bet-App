@@ -15,9 +15,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = '$gg)+cnq2%4s=+p7gu!g-6b+g=c3l1jaf&b43i5q9szer+dqmk'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = ['rashadbet.herokuapp.com','127.0.0.1']
+ALLOWED_HOSTS = ['localhost', '192.168.0.121','rashadbet.herokuapp.com','127.0.0.1']
 
 
 # Application definition
