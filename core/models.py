@@ -7,6 +7,7 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.utils.text import slugify
 
+
 class Profile(models.Model):
     user = models.OneToOneField(User, blank=True, null=True ,on_delete=models.CASCADE)
     balance = models.FloatField(default=0)
@@ -21,7 +22,10 @@ def create_user_profile(sender, instance, created, **kwargs):
 
 @receiver(post_save, sender=User)
 def save_user_profile(sender, instance, **kwargs):
-    instance.profile.save()
+    try:
+        instance.profile.save()
+    except:
+        print("Yes")
 
 class BetSlip(models.Model):
     slug = models.SlugField(default='')
