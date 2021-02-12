@@ -36,8 +36,7 @@ def add_to_bet_slip(request):
             messages.success(request,"Successfully deleted")
             return redirect('core:premier-league-odds')
         elif bet_slip.games.filter(home_team=home_team,away_team=away_team,location=location):
-            bet_slip.games.remove(game)
-            bet_slip.games.add(game)
+            bet_slip.games.filter(home_team=home_team,away_team=away_team,location=location).update(odd=game.odd, prediction=game.prediction)
             messages.success(request,"Successfully updated")
             return redirect('core:premier-league-odds')
         else:
