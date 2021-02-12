@@ -1,0 +1,25 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+<h2>Coupons</h2>
+<table class="table table-dark table-hover">
+    <thead class="thead-dark">
+      <tr>
+        <th scope="col">Overal odds</th>
+        <th scope="col">Status</th>
+        <th scope="col">Number of games</th>
+      </tr>
+    </thead>
+    <tbody>
+        {% for coupon in coupons %}
+            <tr>
+                <td><a href="{% url 'coupon-detail' coupon.slug %}">{{coupon.get_overal_odd}}</a></td>
+                <td><a href="{% url 'coupon-detail' coupon.slug %}">{{coupon.status}}</a></td>
+                <td><a href="{% url 'coupon-detail' coupon.slug %}">{{coupon.games.all.count}}</a></td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock content %}
+    

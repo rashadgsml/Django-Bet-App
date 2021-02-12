@@ -1,0 +1,38 @@
+{% extends 'layout.html' %}
+
+
+{% block content %}
+    <H1>Premier League</H1>
+    <a href="/" class="btn btn-info" role="button">Home</a>
+    <a href="/premier-league/odds" class="btn btn-info" role="button">Odds/Fixtures</a>
+    <a href="/premier-league" class="btn btn-info" role="button">Matches</a>
+    <a href="/premier-league/standings" class="btn btn-info" role="button">Standings</a>
+    <h2>Matches</h2>
+    <table class="table table-dark table-hover">
+        <thead>
+          <tr>
+            <th scope="col">Favorite</th>
+            <th scope="col">Home</th>
+            <th scope="col">Result</th>
+            <th scope="col">Away</th>
+            <th scope="col">Time</th>
+          </tr>
+        </thead>
+        <tbody>
+            {% for data in items %}
+          <tr>
+            <td><input type="checkbox"></td>
+            <td><b>{{ data.T1.0.Nm }}</b></td>
+            {% if 'Tr1' in data %}
+              <td><strong>{{ data.Tr1 }} - {{ data.Tr2 }}</strong></td>
+            {% else %}
+              <td><strong> vs </strong></td>
+            {% endif %}
+            <td><b>{{ data.T2.0.Nm }}</b></td>
+            <td><i>{{ data.Eps }}</i></td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+{% endblock content %}
+    

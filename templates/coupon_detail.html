@@ -1,0 +1,42 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+    <h1>Coupon</h1>
+    <p>Overal Odd: {{object.get_overal_odd}}</p>
+    <p>Stake: {{object.stake}}</p>
+    <p>Potential return: {{object.get_potential_return}}</p>
+    <table class="table table-dark table-hover">
+        <thead class="thead-dark">
+          <tr>
+            <th scope="col">Home Team</th>
+            <th scope="col">Result</th>
+            <th scope="col">Away Team</th>
+            <th scope="col">Time</th>
+            <th scope="col">Prediction</th>
+            <th scope="col">Odds</th>
+          </tr>
+        </thead>
+        <tbody>
+            {% for match in matches %}       
+                {% for game in object.games.all %}
+                    {% if match.T1.0.Nm == game.home_team and match.T2.0.Nm == game.away_team %}
+                        <tr>
+                            <td>{{match.T1.0.Nm}}</td>
+                            {% if match.Eps != 'NS' %}
+                               <td>{{match.Tr1}}-{{match.Tr2}}</td> 
+                            {% else %}
+                                <td>vs</td>
+                            {% endif %}
+                            <td>{{match.T2.0.Nm}}</td>
+                            <td>{{match.Eps}}</td>
+                            <td>{{game.prediction}}</td>
+                            <td>{{game.odd}}</td>
+                        </tr>
+                    {% endif %}
+                {% endfor %}
+            {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock content %}
+    

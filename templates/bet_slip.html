@@ -1,0 +1,34 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+<h2>Bet Slip</h2>
+<p>Your balance: {{profile.balance}} AZN</p>
+<p>Overal odds: {{bet_slip.get_overal_odd}}</p>
+<table class="table">
+    <thead class="thead-dark">
+      <tr>
+        <th scope="col">Home</th>
+        <th scope="col">Away</th>
+        <th scope="col">Prediction</th>
+        <th scope="col">Odds</th>
+      </tr>
+    </thead>
+    <tbody>
+        {% for game in bet_slip.games.all %}
+            <tr>
+                <td>{{game.home_team}}</td>
+                <td>{{game.away_team}}</td>
+                <td>{{game.prediction}}</td>
+                <td>{{game.odd}}</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<form action="{% url 'bet-slip-view' %}" method="POST">
+    {% csrf_token %}
+    <label for="">Amount</label>
+    <input type="text" name="amount" placeholder="Min: 0.3">
+    <button type="submit" class="btn btn-info">Place bet</button>
+</form>
+{% endblock content %}
+    

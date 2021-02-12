@@ -1,0 +1,55 @@
+{% extends 'layout.html' %}
+
+
+{% block content %}
+    <H1>Premier League</H1>
+    <a href="/" class="btn btn-info" role="button">Home</a>
+    <a href="/premier-league/odds" class="btn btn-info" role="button">Odds/Fixtures</a>
+    <a href="/premier-league" class="btn btn-info" role="button">Matches</a>
+    <a href="/premier-league/standings" class="btn btn-info" role="button">Standings</a>
+    <h2>Matches</h2>
+    <table class="table table-dark table-hover">
+        <thead>
+          <tr>
+            <th scope="col">Favorite</th>
+            <th scope="col">Home</th>
+            <th scope="col"></th>
+            <th scope="col">Away</th>
+            <th scope="col"></th>
+            <th scope="col">W1</th>
+            <th scope="col"></th>
+            <th scope="col">Draw</th>
+            <th scope="col"></th>
+            <th scope="col">W2</th>
+          </tr>
+        </thead>
+        <tbody>
+            {% for odd in odds %}
+          <tr>
+            <td><input type="checkbox"></td>
+            <td><b>{{odd.O1}}</b></td>
+            <td><strong>vs</strong></td>
+            <td><b>{{odd.O2}}</b></td>
+            <td><i>{{ odd.Eps }}</i></td>
+            <form action="{% url 'core:add-to-bet-slip' %}" method="POST">
+            {% csrf_token %}
+            <td><input type="submit" name='odd' value='{{odd.E.0.C}}'></td>
+            <td><input type="hidden" name="odd" value="{{odd.E.0.C}}|{{odd.O1}}|{{odd.O2}}|{{odd.MIO.Loc}}|W1"/></td>
+          </form>
+          <form action="{% url 'core:add-to-bet-slip' %}" method="POST">
+            {% csrf_token %}
+            <td><input type="submit" name='odd' value='{{odd.E.1.C}}'></td>
+            <td><input type="hidden" name="odd" value="{{odd.E.1.C}}|{{odd.O1}}|{{odd.O2}}|{{odd.MIO.Loc}}|Draw"/></td>
+          </form>
+          <form action="{% url 'core:add-to-bet-slip' %}" method="POST">
+            {% csrf_token %}
+            <td><input type="submit" name='odd' value='{{odd.E.2.C}}'></td>
+            <td><input type="hidden" name="odd" value="{{odd.E.2.C}}|{{odd.O1}}|{{odd.O2}}|{{odd.MIO.Loc}}|W2"/></td>
+          </form>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+
+{% endblock content %}
+    
