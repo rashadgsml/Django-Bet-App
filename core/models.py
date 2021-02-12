@@ -9,7 +9,7 @@ from django.utils.text import slugify
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    balance = models.FloatField()
+    balance = models.FloatField(default=0)
 
     def __str__(self):
         return self.user.username
