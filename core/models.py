@@ -8,7 +8,7 @@ from django.dispatch import receiver
 from django.utils.text import slugify
 
 class Profile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, blank=True, null=True ,on_delete=models.CASCADE)
     balance = models.FloatField(default=0)
 
     def __str__(self):
