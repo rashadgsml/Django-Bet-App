@@ -168,7 +168,7 @@ def get_coupon_status(request, slug):
     coupon_qs = BetSlip.objects.filter(profile=profile, slug=slug, accepted=True, status='NR')
     if coupon_qs.exists():
         coupon = coupon_qs[0]
-        if all(x == "Won" for x in coupon.games.all()[0].status):
+        if all(x.status == "Won" for x in coupon.games.all()):
             coupon.status = 'Won'
             new_balance = profile.balance + coupon.get_potential_return()
             profile.balance = new_balance
