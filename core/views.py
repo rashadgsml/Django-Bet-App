@@ -131,10 +131,10 @@ class CouponDetailView(DetailView):
         game_result = []
         for i in get_game_result(self.request,self.kwargs['slug']):
             if i['Eps'] == 'FT':
-                if i['Tr1'] > i['Tr2']:
+                if int(i['Tr1']) > int(i['Tr2']):
                     data = {'home_team':i['T1'][0]['Nm'],'away_team':i['T2'][0]['Nm'],'result':'W1'}
                     game_result.append(data)
-                elif i['Tr1'] < i['Tr2']:
+                elif int(i['Tr1']) < int(i['Tr2']):
                     data = {'home_team':i['T1'][0]['Nm'],'away_team':i['T2'][0]['Nm'],'result':'W2'}
                     game_result.append(data)
                 else:
