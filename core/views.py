@@ -140,7 +140,6 @@ class CouponDetailView(DetailView):
                 else:
                     data = {'home_team':i['T1'][0]['Nm'],'away_team':i['T2'][0]['Nm'],'result':'Draw'}
                     game_result.append(data)
-
         get_game_status(self.request, game_result, self.kwargs['slug'])
         get_coupon_status(self.request,self.kwargs['slug'])
         return context

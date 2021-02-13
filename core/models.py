@@ -28,7 +28,7 @@ def save_user_profile(sender, instance, **kwargs):
         print("Yes")
 
 class BetSlip(models.Model):
-    slug = models.SlugField(default='')
+    slug = models.SlugField(default='',editable=False)
     profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
     games = models.ManyToManyField('Game')
     bet_slip_code = models.CharField(max_length=21, default='')
