@@ -27,11 +27,14 @@ def save_user_profile(sender, instance, **kwargs):
     except:
         print("Yes")
 
+def get_random_value():
+    return ''.join(random.choices(string.ascii_lowercase + string.digits, k=20))
+
 class BetSlip(models.Model):
-    slug = models.SlugField(default='',editable=False)
+    slug = models.SlugField(default=get_random_value)
     profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
     games = models.ManyToManyField('Game')
-    bet_slip_code = models.CharField(max_length=21, default='')
+    bet_slip_code = models.CharField(max_length=21, default=get_random_value)
     accepted = models.BooleanField(default=False)
     status = models.CharField(max_length=10, default='NR')
     stake = models.FloatField(blank=True,null=True)
@@ -50,11 +53,11 @@ class BetSlip(models.Model):
         potential_return = float(self.get_overal_odd() * self.stake)
         return potential_return
 
-    def save(self, *args, **kwargs):
-        self.bet_slip_code = ''.join(random.choices(string.ascii_lowercase + string.digits, k=20))
-        value = self.bet_slip_code
-        self.slug = slugify(value, allow_unicode=True)
-        super().save(*args, **kwargs)
+    # def save(self, *args, **kwargs):
+    #     self.bet_slip_code = ''.join(random.choices(string.ascii_lowercase + string.digits, k=20))
+    #     value = self.bet_slip_code
+    #     self.slug = slugify(value, allow_unicode=True)
+    #     super().save(*args, **kwargs)
     
 
 class Game(models.Model):
