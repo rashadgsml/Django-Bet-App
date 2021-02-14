@@ -36,7 +36,8 @@ def add_to_bet_slip(request):
             messages.success(request,"Successfully deleted")
             return redirect('core:premier-league-odds')
         elif bet_slip.games.filter(home_team=home_team,away_team=away_team,location=location):
-            bet_slip.games.filter(home_team=home_team,away_team=away_team,location=location).update(odd=game.odd, prediction=game.prediction)
+            bet_slip.games.remove(*bet_slip.games.filter(home_team=home_team,away_team=away_team,location=location))
+            bet_slip.games.add(game)
             messages.success(request,"Successfully updated")
             return redirect('core:premier-league-odds')
         else:
@@ -51,6 +52,12 @@ def add_to_bet_slip(request):
     return redirect('core:premier-league-odds')
 
 def index(request):
+    if request.user.is_authenticated:
+        profile, created = Profile.objects.get_or_create(user=request.user)
+        coupons_qs = BetSlip.objects.filter(profile=profile, accepted=True, status="NR")
+        if coupons_qs.exists():
+            for i in coupons_qs:
+                get_coupon_status(request, i.slug)
     return render(request,"index.html")
 
 def premier_league_matches(request):
@@ -60,11 +67,15 @@ def premier_league_matches(request):
     }
     return render(request,"premier_league/premier_league_detail.html",context)
 
-def premier_league_odds(request):
+def premier_league_odds(request):   
     odd_data = odds()
     context = {
         'odds':odd_data,
     }
+    profile = Profile.objects.get(user=request.user)
+    bet_slip_qs = BetSlip.objects.filter(profile=profile, accepted=False)
+    if bet_slip_qs.exists():
+        context['bet_slip_games'] = bet_slip_qs[0].games.all()
     return render(request,"premier_league/odds.html",context)
 
 def premier_league_standings(request):
@@ -82,6 +93,13 @@ class BetSlipView(View):
         if bet_slip_qs.exists():
             bet_slip = bet_slip_qs[0]
             if bet_slip.games.all():
+                for i in bet_slip.games.all():
+                    for j in matches():
+                        if i.home_team == j['T1'][0]['Nm'] and i.away_team == j['T2'][0]['Nm'] and j['Eps'] != 'NS':
+                            bet_slip.games.remove(i)
+                            if not bet_slip.games.all():
+                                messages.warning(request,"You do not have any game in your bet slip")
+                                return redirect('index')   
                 context["bet_slip"] = bet_slip
             else:
                 messages.warning(request,"You do not have any game in your bet slip")
@@ -96,7 +114,7 @@ class BetSlipView(View):
         profile = Profile.objects.get(user=self.request.user)
         if float(amount) < 0.3:
             messages.warning(request,"Your stake has to be at least 0.3 AZN")
-            return redirect('core:bet-slip-view')
+            return redirect('bet-slip-view')
         if profile.balance >= float(amount):
             new_balance = profile.balance - float(amount)
             Profile.objects.filter(user=self.request.user).update(balance=new_balance)
@@ -106,7 +124,7 @@ class BetSlipView(View):
             bet_slip.save()
         else:
             messages.warning(request,"You do not have enough funds in your balance")
-            return redirect('core:bet-slip-view')
+            return redirect('bet-slip-view')
         return redirect('index')
 
 def coupons(request):
@@ -140,6 +158,7 @@ class CouponDetailView(DetailView):
                 else:
                     data = {'home_team':i['T1'][0]['Nm'],'away_team':i['T2'][0]['Nm'],'result':'Draw'}
                     game_result.append(data)
+                
         get_game_status(self.request, game_result, self.kwargs['slug'])
         get_coupon_status(self.request,self.kwargs['slug'])
         return context
@@ -166,10 +185,8 @@ def get_coupon_status(request, slug):
     profile = Profile.objects.get(user=request.user)
     coupon_qs = BetSlip.objects.filter(profile=profile, slug=slug, accepted=True, status='NR')
     if coupon_qs.exists():
-        print("Won1")
         coupon = coupon_qs[0]
         if all(x.status == "Won" for x in coupon.games.all()):
-            print("Won2")
             coupon.status = 'Won'
             new_balance = profile.balance + coupon.get_potential_return()
             profile.balance = new_balance
@@ -191,7 +208,4 @@ def get_game_result(request, slug):
             if match['T1'][0]['Nm'] == game.home_team and match['T2'][0]['Nm'] == game.away_team:
                 items.append(match)
     return items
-
-
-
 

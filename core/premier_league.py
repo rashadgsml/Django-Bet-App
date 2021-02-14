@@ -18,7 +18,7 @@ def matches():
     return items[start:finish]
 
 def odds():
-    url = "https://1-xbahis09095.com/LineFeed/Get1x2_VZip?champs=88637,118587,118593&count=10&lng=en&mode=4&top=true&partner=7"
+    url = "https://1-xbahis09095.com/LineFeed/Get1x2_VZip?sports=1&champs=88637&count=50&lng=en&tf=2200000&tz=4&mode=4&country=231&partner=7&getEmpty=true&countryOnly=true"
     data = requests.get(url).json()
     items = data['Value']
     return items

@@ -24,7 +24,7 @@
           </tr>
         </thead>
         <tbody>
-            {% for odd in odds %}
+            {% for odd in odds %}        
           <tr>
             <td><input type="checkbox"></td>
             <td><b>{{odd.O1}}</b></td>
@@ -33,17 +33,17 @@
             <td><i>{{ odd.Eps }}</i></td>
             <form action="{% url 'core:add-to-bet-slip' %}" method="POST">
             {% csrf_token %}
-            <td><input type="submit" name='odd' value='{{odd.E.0.C}}'></td>
+            <td><input type="submit" name='odd' value='{{odd.E.0.C}}' {% for game in bet_slip_games %} {% if game.home_team == odd.O1 and game.away_team == odd.O2 and game.prediction == 'W1' %} style="background-color: #4CAF50;" {% endif %} {% endfor %}></td>
             <td><input type="hidden" name="odd" value="{{odd.E.0.C}}|{{odd.O1}}|{{odd.O2}}|{{odd.MIO.Loc}}|W1"/></td>
           </form>
           <form action="{% url 'core:add-to-bet-slip' %}" method="POST">
             {% csrf_token %}
-            <td><input type="submit" name='odd' value='{{odd.E.1.C}}'></td>
+            <td><input type="submit" name='odd' value='{{odd.E.1.C}}' {% for game in bet_slip_games %} {% if game.home_team == odd.O1 and game.away_team == odd.O2 and game.prediction == 'Draw' %} style="background-color: #4CAF50;" {% endif %} {% endfor %}></td>
             <td><input type="hidden" name="odd" value="{{odd.E.1.C}}|{{odd.O1}}|{{odd.O2}}|{{odd.MIO.Loc}}|Draw"/></td>
           </form>
           <form action="{% url 'core:add-to-bet-slip' %}" method="POST">
             {% csrf_token %}
-            <td><input type="submit" name='odd' value='{{odd.E.2.C}}'></td>
+            <td><input type="submit" name='odd' value='{{odd.E.2.C}}' {% for game in bet_slip_games %} {% if game.home_team == odd.O1 and game.away_team == odd.O2 and game.prediction == 'W2' %} style="background-color: #4CAF50;" {% endif %} {% endfor %}></td>
             <td><input type="hidden" name="odd" value="{{odd.E.2.C}}|{{odd.O1}}|{{odd.O2}}|{{odd.MIO.Loc}}|W2"/></td>
           </form>
           </tr>
