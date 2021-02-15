@@ -13,8 +13,8 @@ def matches():
     url = "https://prod-public-api.livescore.com/v1/api/react/stage/soccer/england/premier-league/4.00"
     data = requests.get(url).json()
     items = data['Stages'][0]['Events']
-    start = 224
-    finish = 240
+    start = 233
+    finish = 260
     return items[start:finish]
 
 def odds():

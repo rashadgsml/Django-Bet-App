@@ -1,5 +1,5 @@
 {% extends 'layout.html' %}
-
+{% load static %}
 {% block content %}
 <h1>Premier League</h1>
 <h2>Standings</h2>
@@ -28,5 +28,7 @@
         {% endfor %}
     </tbody>
   </table>
+<script src="{% static 'js/bootstrap.min.js' %}"></script>
+<script src="{% static 'js/jquery-3.2.1.min.js' %}"></script>
 {% endblock content %}
     

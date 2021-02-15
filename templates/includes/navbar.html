@@ -1,47 +1,5 @@
-<nav class="navbar navbar-expand navbar-dark bg-dark">
-    <a class="navbar-brand" href="/">Rashad Bet</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample02" aria-controls="navbarsExample02" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-
-    <div class="collapse navbar-collapse" id="navbarsExample02">
-      <ul class="navbar-nav mr-auto">
-        <li class="nav-item active">
-          <a class="nav-link" href="{% url 'index' %}">Home <span class="sr-only">(current)</span></a>
-        </li>
-      </ul>
-      
-      <ul class="navbar-nav ml-auto">
-        {% if request.user.is_authenticated %}
-            <li class="nav-item active">
-              <a class="nav-link" href="{% url 'coupons' %}">Coupons</a>
-            </li>
-            <li class="nav-item active">
-              <a class="nav-link" href="{% url 'bet-slip-view' %}">Bet Slip</a>
-            </li>
-            <li class="nav-item active">
-              <a class="nav-link" href="/accounts/logout/">Logout</a>
-            </li>
-        {% else %}
-            <li class="nav-item active">
-              <a class="nav-link" href="/accounts/login/">Login</a>
-            </li>
-            <li class="nav-item active">
-              <a class="nav-link" href="/accounts/signup/">Register</a>
-            </li>
-        {% endif %}
-      </ul>
-
-    </div>
-  </nav>
-  <style>
-    ul {
-      list-style-type: none;
-      margin: 0;
-      padding: 0;
-      overflow: hidden;
-    }
-    
+{% block extra_head %}
+<style>
     li {
       float: left;
     }
@@ -58,4 +16,74 @@
     li a:hover {
       background-color: #111;
     }
+    .bg-custom-1 {
+      background-color: #85144b;
+    }
+    
+    .bg-custom-2 {
+    background-image: linear-gradient(15deg, #13547a 0%, #80d0c7 100%);
+    }
   </style>
+  {% endblock extra_head %}
+<nav class="navbar navbar-expand navbar-dark bg-dark">
+    <a class="navbar-brand" href="/">Rashad Bet</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample02" aria-controls="navbarsExample02" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarsExample02">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item active">
+          <a class="nav-link" href="{% url 'index' %}">Home <span class="sr-only">(current)</span></a>
+        </li>
+      </ul>
+      
+      <ul class="navbar-nav ml-auto">
+        {% if request.user.is_authenticated %}
+          <a href="javascript:void(0);" class="btn-user dropdown-toggle media align-items-center" data-toggle="dropdown" data-sidebar="true" aria-expanded="false">
+            <img class="mr-2" src="https://s3.eu-central-1.amazonaws.com/bootstrapbaymisc/blog/24_days_bootstrap/fox.jpg" width="40" height="40" alt="avatar">
+            <div class="media-body">
+                {{request.user}}
+            </div>
+          </a>
+          <ul class="dropdown-menu dropdown-menu-right" role="menu">
+            <h6>Balance: {{user.profile.balance}} AZN</h6>
+            <a class="dropdown-item" href="{% url 'coupons' %}">Coupons</a>
+            <a class="dropdown-item" href="{% url 'bet-slip-view' %}">Bet Slip</a>
+              <a class="dropdown-item" href="javascript:void(0);">Edit Profile</a>
+              <a class="dropdown-item" href="/accounts/logout/">Logout</a>
+          </ul>
+            <!-- <li class="nav-item active">
+              <a class="nav-link" href="{% url 'coupons' %}">Coupons</a>
+            </li>
+            <li class="nav-item active">
+              <a class="nav-link" href="{% url 'bet-slip-view' %}">Bet Slip</a>
+            </li> -->
+            <!-- <li class="nav-item active">
+              <a class="nav-link" href="/accounts/logout/">Logout</a>
+            </li> -->
+        {% else %}
+            <li class="nav-item active">
+              <a class="nav-link" href="/accounts/login/">Login</a>
+            </li>
+            <li class="nav-item active">
+              <a class="nav-link" href="/accounts/signup/">Register</a>
+            </li>
+        {% endif %}
+      </ul>
+      
+    </div>
+  </nav>
+  <!-- <ul class="navbar-nav">
+        
+        <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <img src="https://s3.eu-central-1.amazonaws.com/bootstrapbaymisc/blog/24_days_bootstrap/fox.jpg" width="40" height="40" class="rounded-circle">
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+          <a class="dropdown-item" href="#">Dashboard</a>
+          <a class="dropdown-item" href="#">Edit Profile</a>
+          <a class="dropdown-item" href="#">Log Out</a>
+        </div>
+      </li>
+    </ul> -->

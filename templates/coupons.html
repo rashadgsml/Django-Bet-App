@@ -1,5 +1,5 @@
 {% extends 'layout.html' %}
-
+{% load static %}
 {% block content %}
 <h2>Coupons</h2>
 <table class="table table-dark table-hover">
@@ -20,6 +20,6 @@
         {% endfor %}
     </tbody>
 </table>
-
+<script src="{% static 'js/bootstrap.min.js' %}"></script>
+<script src="{% static 'js/jquery-3.2.1.min.js' %}"></script>
 {% endblock content %}
-    

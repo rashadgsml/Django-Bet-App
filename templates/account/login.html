@@ -2,11 +2,27 @@
 
 {% load i18n %}
 {% load account socialaccount %}
+{% load crispy_forms_tags %}
 
 {% block head_title %}{% trans "Sign In" %}{% endblock %}
 
-{% block content %}
+{% block extra_head %}
+<style>
+.center {
+    margin: auto;
+    width: 50%;
+    padding: 10px;
+  }
+.container {
+    position: absolute;
+  }
+</style>
+{% endblock %}
 
+{% block content %}
+<div class="center">
+<div class="container">
+  <div class="col-sm-6 col-sm-offset-3">
 <h1>{% trans "Sign In" %}</h1>
 
 {% get_providers as socialaccount_providers %}
@@ -35,12 +51,15 @@ for a {{ site_name }} account and sign in below:{% endblocktrans %}</p>
 
 <form class="login" method="POST" action="{% url 'account_login' %}">
   {% csrf_token %}
-  {{ form.as_p }}
+  {{ form|crispy }}
   {% if redirect_field_value %}
   <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
   {% endif %}
   <a class="button secondaryAction" href="{% url 'account_reset_password' %}">{% trans "Forgot Password?" %}</a>
-  <button class="primaryAction" type="submit">{% trans "Sign In" %}</button>
+  <br><br>
+  <button class="btn btn-primary" type="submit">{% trans "Sign In" %}</button>
 </form>
-
+</div>
+</div>
+</div>
 {% endblock %}

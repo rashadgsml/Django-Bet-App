@@ -1,5 +1,5 @@
 {% extends 'layout.html' %}
-
+{% load static %}
 {% block content %}
 <h2>Bet Slip</h2>
 <p>Your balance: {{profile.balance}} AZN</p>
@@ -30,5 +30,7 @@
     <input type="text" name="amount" placeholder="Min: 0.3">
     <button type="submit" class="btn btn-info">Place bet</button>
 </form>
+<script src="{% static 'js/bootstrap.min.js' %}"></script>
+<script src="{% static 'js/jquery-3.2.1.min.js' %}"></script>
 {% endblock content %}
     

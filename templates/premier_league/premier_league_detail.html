@@ -1,6 +1,6 @@
 {% extends 'layout.html' %}
 
-
+{% load static %}
 {% block content %}
     <H1>Premier League</H1>
     <a href="/" class="btn btn-info" role="button">Home</a>
@@ -34,5 +34,7 @@
           {% endfor %}
         </tbody>
       </table>
+<script src="{% static 'js/bootstrap.min.js' %}"></script>
+<script src="{% static 'js/jquery-3.2.1.min.js' %}"></script>
 {% endblock content %}
     

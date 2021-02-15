@@ -4,7 +4,23 @@
 
 {% block head_title %}{% trans "Sign Out" %}{% endblock %}
 
+{% block extra_head %}
+<style>
+.center {
+    margin: auto;
+    width: 50%;
+    padding: 10px;
+  }
+  .container {
+    position: absolute;
+  }
+</style>
+{% endblock %}
+
 {% block content %}
+<div class="center">
+  <div class="container">
+    <div class="col-sm-6 col-sm-offset-3">
 <h1>{% trans "Sign Out" %}</h1>
 
 <p>{% trans 'Are you sure you want to sign out?' %}</p>
@@ -14,8 +30,9 @@
   {% if redirect_field_value %}
   <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>
   {% endif %}
-  <button type="submit">{% trans 'Sign Out' %}</button>
+  <button class="btn btn-primary" type="submit">{% trans 'Sign Out' %}</button>
 </form>
-
-
+</div>
+</div>
+</div>
 {% endblock %}

@@ -6,6 +6,7 @@ from .premier_league import matches, odds, standings
 
 from django.contrib.auth.decorators import login_required
 
+@login_required
 def add_to_bet_slip(request):
     data = request.POST.get('odd')
     data = data.split("|")
@@ -55,9 +56,23 @@ def index(request):
     if request.user.is_authenticated:
         profile, created = Profile.objects.get_or_create(user=request.user)
         coupons_qs = BetSlip.objects.filter(profile=profile, accepted=True, status="NR")
+        
         if coupons_qs.exists():
-            for i in coupons_qs:
-                get_coupon_status(request, i.slug)
+            for j in coupons_qs:
+                game_result = []
+                for i in get_game_result(request,j.slug):
+                    if i['Eps'] == 'FT':
+                        if int(i['Tr1']) > int(i['Tr2']):
+                            data = {'home_team':i['T1'][0]['Nm'],'away_team':i['T2'][0]['Nm'],'result':'W1'}
+                            game_result.append(data)
+                        elif int(i['Tr1']) < int(i['Tr2']):
+                            data = {'home_team':i['T1'][0]['Nm'],'away_team':i['T2'][0]['Nm'],'result':'W2'}
+                            game_result.append(data)
+                        else:
+                            data = {'home_team':i['T1'][0]['Nm'],'away_team':i['T2'][0]['Nm'],'result':'Draw'}
+                            game_result.append(data)
+                get_game_status(request,game_result,j.slug)
+                get_coupon_status(request, j.slug)
     return render(request,"index.html")
 
 def premier_league_matches(request):
@@ -72,10 +87,11 @@ def premier_league_odds(request):
     context = {
         'odds':odd_data,
     }
-    profile = Profile.objects.get(user=request.user)
-    bet_slip_qs = BetSlip.objects.filter(profile=profile, accepted=False)
-    if bet_slip_qs.exists():
-        context['bet_slip_games'] = bet_slip_qs[0].games.all()
+    if request.user.is_authenticated:
+        profile = Profile.objects.get(user=request.user)
+        bet_slip_qs = BetSlip.objects.filter(profile=profile, accepted=False)
+        if bet_slip_qs.exists():
+            context['bet_slip_games'] = bet_slip_qs[0].games.all()
     return render(request,"premier_league/odds.html",context)
 
 def premier_league_standings(request):

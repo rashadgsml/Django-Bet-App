@@ -1,5 +1,5 @@
 {% extends 'layout.html' %}
-
+{% load static %}
 {% block content %}
     <h1>Coupon</h1>
     <p>Overal Odd: {{object.get_overal_odd}}</p>
@@ -37,6 +37,7 @@
             {% endfor %}
         </tbody>
     </table>
-
+<script src="{% static 'js/bootstrap.min.js' %}"></script>
+<script src="{% static 'js/jquery-3.2.1.min.js' %}"></script>
 {% endblock content %}
     

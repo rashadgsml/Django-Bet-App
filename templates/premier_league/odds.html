@@ -1,5 +1,5 @@
 {% extends 'layout.html' %}
-
+{% load static %}
 
 {% block content %}
     <H1>Premier League</H1>
@@ -24,7 +24,8 @@
           </tr>
         </thead>
         <tbody>
-            {% for odd in odds %}        
+            {% for odd in odds %}
+            {% if odd.O1 != 'Home (Goals)' %}
           <tr>
             <td><input type="checkbox"></td>
             <td><b>{{odd.O1}}</b></td>
@@ -47,9 +48,11 @@
             <td><input type="hidden" name="odd" value="{{odd.E.2.C}}|{{odd.O1}}|{{odd.O2}}|{{odd.MIO.Loc}}|W2"/></td>
           </form>
           </tr>
+            {% endif %}
           {% endfor %}
         </tbody>
       </table>
-
+<script src="{% static 'js/bootstrap.min.js' %}"></script>
+<script src="{% static 'js/jquery-3.2.1.min.js' %}"></script>
 {% endblock content %}
     
